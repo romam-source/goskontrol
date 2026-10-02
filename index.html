@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <base target="_top">
+    <meta charset="UTF-8">
+    <title> УК ГОСКОНТРОЛЬ - СУВЕРЕННЫЙ ЛОГ ЦЕНТР </title>
+    <style>
+      body { font-family: 'Courier New', monospace; background-color: #0d1117; padding: 25px; color: #c9d1d9; }
+      .app-card { max-width: 1000px; margin: 0 auto; background: #161b22; padding: 30px; border: 4px solid #d32f2f; border-radius: 16px; box-shadow: 0px 0px 25px rgba(211, 47, 47, 0.5); }
+      h2 { color: #f85149; text-align: center; font-size: 28px; margin-bottom: 5px; letter-spacing: 2px; }
+      .border-line { border-top: 3px dashed #f85149; margin: 20px 0; }
+      .input-field { width: 96%; padding: 12px; margin: 10px 0; background: #0d1117; border: 2px solid #30363d; border-radius: 8px; color: #58a6ff; font-weight: bold; font-size: 16px; }
+      .cyber-btn { display: block; width: 100%; padding: 14px; margin-top: 10px; background: #21262d; color: #ecf2f8; border: 2px solid #30363d; border-radius: 8px; font-weight: bold; font-size: 16px; cursor: pointer; transition: 0.2s; }
+      .cyber-btn:hover { background: #30363d; border-color: #8b949e; }
+      .btn-red { border-color: #f85149; color: #f85149; background: rgba(248, 81, 73, 0.1); }
+      .btn-red:hover { background: #f85149; color: white; }
+      .btn-green { border-color: #2ea44f; color: #56d364; background: rgba(46, 164, 79, 0.1); }
+      .btn-green:hover { background: #2ea44f; color: white; }
+      .grid-container { display: grid; grid-template-columns: 1fr 1fr; gap: 25px; margin: 15px 0; }
+      .debt-box { background: #0d1117; padding: 25px; border-left: 6px solid #58a6ff; border-radius: 6px; font-size: 24px; font-weight: bold; text-align: center; }
+      /* Стили для динамической ленты отправленных документов */
+      .history-box { background: #0d1117; padding: 20px; border: 2px solid #30363d; border-radius: 8px; margin-top: 15px; max-height: 320px; overflow-y: auto; }
+      .history-item { display: flex; justify-content: space-between; align-items: center; background: #1f242c; padding: 12px; margin: 8px 0; border-radius: 6px; border-left: 4px solid #f85149; font-size: 15px; }
+      .del-btn { padding: 6px 12px; background: #21262d; color: #f85149; border: 1px solid #f85149; border-radius: 4px; font-size: 12px; cursor: pointer; font-weight: bold; }
+      .del-btn:hover { background: #f85149; color: white; }
+    </style>
+  </head>
+  <body>
+    <div class="app-card">
+      <h2> 🚨 УК ГОСКОНТРОЛЬ 🚨 </h2>
+      <div style="text-align:center; font-size: 16px; color: #8b949e; font-weight: bold;"> 🗺️ Собственная Общественная Страна Киберзона </div>
+      <div class="border-line"></div>
+
+      <!-- 🔐 Экран активации Root доступа планшета -->
+      <div id="login-screen" style="max-width: 500px; margin: 0 auto;">
+        <h3 style="text-align:center;"> 🔓 АКТИВАЦИЯ ROOT ДОСТУПА ПРЕЗИДЕНТА </h3>
+        <input type="password" id="admin-pass" class="input-field" placeholder="Введите секретный код...">
+        <button class="cyber-btn btn-red" onclick="tryLogin()"> 🚀 ОТКРЫТЬ ДОСТУП ПЛАНШЕТА </button>
+      </div>
+
+      <!-- 👑 Главная интерактивная панель Президента -->
+      <div id="main-screen" style="display:none;">
+        <div style="color:#56d364; font-weight:bold; text-align:center; font-size:18px; letter-spacing: 1px;"> ⚡ ЦЕНТРАЛЬНЫЙ ПУЛЬТ УПРАВЛЕНИЯ УК ГОСКОНТРОЛЬ СТАБИЛЕН 👑 </div>
+        <div class="border-line"></div>
+        
+        <!-- Верхний статус главного должника страны -->
+        <div class="debt-box" style="max-width: 700px; margin: 0 auto; margin-bottom: 20px;"> 📉 Общий долг Кирилла по статьям УК <br><span id="val-kirill" style="color:#f85149; font-size: 36px;">7200</span> рублей </div>
+        
+        <div class="grid-container">
+          <!-- Левая колонка ручная смена параметров долга и Касса -->
+          <div>
+            <h3> ⚙️ БАЛАНС И ОПЕРАЦИИ КАССЫ </h3>
+            <label style="font-size:14px; color:#8b949e;"> 💵 Изменить общий долг Кирилла напрямую </label>
+            <input type="number" id="set-kirill" class="input-field">
+            <button class="cyber-btn btn-green" onclick="commitParams()"> 💾 ЗАФИКСИРОВАТЬ ЦЕНУ В БАЗЕ </button>
+            <div class="border-line"></div>
+            
+            <input type="number" id="pay-input" class="input-field" placeholder="Сумма кэша со смены">
+            <button class="cyber-btn btn-green" onclick="subtractPay()"> 💸 Кнопка Минус Оплата из долга </button>
+            
+            <input type="number" id="candies-input" class="input-field" placeholder="Количество сданных конфет">
+            <button class="cyber-btn" style="color:#58a6ff; border-color:#58a6ff; background:none;" onclick="processCandies()"> 🍬 Принять бартер 1 штука это минус 50 рублей </button>
+          </div>
+
+          <!-- Правая колонка генератор кастомных штрафов и отправленных счетов -->
+          <div>
+            <h3> 📝 ГЕНЕРАТОР ШТРАФОВ И СЧЕТОВ УК </h3>
+            <label style="font-size:14px; color:#8b949e;"> 📋 Введите текст лога для отправки в ящик </label>
+            <input type="text" id="log-text" class="input-field" placeholder="Например: Отправлен счёт за свет на 700 руб...">
+            <label style="font-size:14px; color:#8b949e;"> 💰 Сумма для автоматического начисления (руб.) </label>
+            <input type="number" id="log-price" class="input-field" placeholder="Введи 0 если сумма не меняется">
+            <button class="cyber-btn btn-red" onclick="addCustomLog()"> 🚀 ОТПРАВИТЬ СЧЁТ И ВЫПИСАТЬ ШТРАФ </button>
+            
+            <div class="history-box" id="log-history">
+              <!-- Сюда динамически залетают логи общественной страны -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // 💾 Локальное сохранение баланса и ленты документов в памяти браузера планшета
+      var kDebt = localStorage.getItem('kirill_debt') !== null ? parseInt(localStorage.getItem('kirill_debt')) : 7200;
+      var logList = JSON.parse(localStorage.getItem('kirill_logs')) || [
+        "⚖️ СТАТЬЯ 177 УК РФ — Диверсия с сервером на СмАЗе на сумму 7200 руб",
+        "🛏️ Отправлен штраф за кровать на сумму 200 руб силами УК"
+      ];
+
+      function tryLogin() {
+        var p = document.getElementById('admin-pass').value;
+        if(p === "215747") {
+          document.getElementById('login-screen').style.display = 'none';
+          document.getElementById('main-screen').style.display = 'block';
+          updateInterface();
+        } else {
+          alert(" ❌ ОТКАЗ В ДОСТУПЕ Введен неверный секретный пароль ");
+        }
+      }
+
+      function updateInterface() {
+        document.getElementById('val-kirill').innerText = kDebt;
+        document.getElementById('set-kirill').value = kDebt;
+        localStorage.setItem('kirill_debt', kDebt);
+        localStorage.setItem('kirill_logs', JSON.stringify(logList));
+        
+        // Рендеринг ленты отправленных документов общественной страны
+        var container = document.getElementById('log-history');
+        container.innerHTML = '';
+        logList.forEach(function(item, index) {
+          var div = document.createElement('div');
+          div.className = 'history-item';
+          div.innerHTML = '<span>' + item + '</span><button class="del-btn" onclick="deleteLog(' + index + ')"> 🗑️ УДАЛИТЬ ФАЙЛ </button>';
+          container.appendChild(div);
+        });
+      }
+
+      function commitParams() {
+        kDebt = parseInt(document.getElementById('set-kirill').value) || 0;
+        updateInterface();
+        alert(" 💾 Общий долг Кирилла зафиксирован в памяти системы ");
+      }
+
+      function subtractPay() {
+        var amt = parseInt(document.getElementById('pay-input').value) || 0;
+        if(amt > 0) {
+          kDebt -= amt;
+          logList.push("💵 В Кассу внесена наличная оплата на сумму " + amt + " руб");
+          document.getElementById('pay-input').value = '';
+          updateInterface();
+        }
+      }
+
+      function processCandies() {
+        var c = parseInt(document.getElementById('candies-input').value) || 0;
+        if(c > 0) {
+          var discount = c * 50;
+          kDebt -= discount;
+          logList.push("🍬 Принят конфетный бартер " + c + " шт на сумму минус " + discount + " руб");
+          document.getElementById('candies-input').value = '';
+          updateInterface();
+        }
+      }
+
+      // Функция добавления кастомного лога (счета за свет, мусор, штрафы)
+      function addCustomLog() {
+        var txt = document.getElementById('log-text').value.trim();
+        var price = parseInt(document.getElementById('log-price').value) || 0;
+        if(txt !== '') {
+          if(price > 0) {
+            kDebt += price;
+            txt += " на сумму " + price + " руб";
+          }
+          logList.push("📝 " + txt);
+          document.getElementById('log-text').value = '';
+          document.getElementById('log-price').value = '';
+          updateInterface();
+        }
+      }
+
+      // Функция удаления файлов/логов из системы
+      function deleteLog(index) {
+        logList.splice(index, 1);
+        updateInterface();
+      }
+    </script>
+  </body>
+</html>
